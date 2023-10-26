@@ -1,0 +1,23 @@
+{
+    "add": {
+        "pattern": ["push", "push", "binary", "return"],
+        "equivalentJava": "return a + b;"
+    
+    },
+    "subtract": {
+        "pattern": [""],
+        "equivalentJava": ""
+    
+    },
+    "assign": {
+        "pattern": [""],
+        "equivalentJava": ""
+    
+    },
+    "createNewObject": {
+        "pattern": [""],
+        "equivalentJava": ""
+    
+    }
+
+}
