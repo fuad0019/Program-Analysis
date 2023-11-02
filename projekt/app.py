@@ -33,16 +33,13 @@ def print_bytecode(am):
     print(m["code"]["bytecode"])
 
 
-
-
-
-
 def bytecode_interp(am, l, s, log):
     memory = [] #To hold our operations in 
 
     for i in range(0,30):
- 
+        
         #GET PARAMETERS,NAME, RETURN TYPE FIRST
+        
         #BODY
         b = find_method(am)["code"]["bytecode"][i] #The actual bytecode 
     
@@ -54,10 +51,6 @@ def bytecode_interp(am, l, s, log):
         pattern = detectPattern(memory)
         javaCode = translateToJava(pattern)
         writeToFile(javaCode)
-
-
-
-        
 
 
 def detectPattern(memory):
