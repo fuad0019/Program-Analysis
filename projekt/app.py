@@ -1,77 +1,58 @@
 from pathlib import Path 
 import json
-import requests
 
-import json
-patterns = requests.get('./patterns.json').json()
-
+with open('projekt/patterns.json') as f:
+    patterns = json.load(f)
 
 dc = Path("decompiled/")
-
 classes = {}
 
+with open("projekt/VarDeclare.json") as p:
+    doc = json.load(p)
+    classes[doc["name"]] = doc 
 
-for f in dc.glob("**/*.json"):
-    with open(f) as p:
-
-        doc = json.load(p)
-        #print(doc["name"])
-        classes[doc["name"]] = doc 
-#print(classes["dtu/compute/exec/Simple"])
 methods = {}
 for cls in classes.values():
     for m in cls["methods"]:
-        methods[(cls["name"], m["name"])] = m #Creates a tuple as a key, containing class name and method name
+        methods[(cls["name"], m["name"])] = m 
 
 def find_method(am):
     return methods[(am)]
 
-
 def print_bytecode(am):
     m = find_method(am)
     assert m is not None
-    print(m["code"]["bytecode"])
-
-
-def bytecode_interp(am, l, s, log):
-    memory = [] #To hold our operations in 
-
-    for i in range(0,30):
-        
-        #GET PARAMETERS,NAME, RETURN TYPE FIRST
-        
-        #BODY
-        b = find_method(am)["code"]["bytecode"][i] #The actual bytecode 
-    
-
-        memory.append(b)
-
-        
-
-        pattern = detectPattern(memory)
-        javaCode = translateToJava(pattern)
-        writeToFile(javaCode)
-
 
 def detectPattern(memory):
-
-# This checks if the sequence of instructions in memory is the same as in one of the patterns
-# then return name of pattern to 
-    for key,value in patterns:
-        if all(x in value.pattern for x in memory):
+    memory_oprs = [item['opr'] for item in memory]  
+    for key, value in patterns.items():
+        if memory_oprs == value['pattern']:
             return key
-         
+
 
 def translateToJava(patternName):
-    return patterns[patternName].equivalentJava
-
-
+    return patterns[patternName]['equivalentJava']
 
 def writeToFile(JavaCode):
-    #TODO: iMPLEMENT WRITING TO LOCAL JAVA FILE
-    return
+    # TODO: Implement writing to local Java file
+    print(JavaCode)
+    pass
 
-  
+
+def bytecode_interp(am):
+    memory = [] 
+    bytecode_list = find_method(am)["code"]["bytecode"]
+    print(bytecode_list)
+    for i in range(len(bytecode_list)): # Loop dynamically adapts to the bytecode length
+        b = bytecode_list[i]
+        memory.append(b)
+    pattern = detectPattern(memory) 
+    javaCode = translateToJava(pattern)
+    writeToFile(javaCode)
+
+am = "Vardeclare", "DeclareInt"
+bytecode_interp(am)
+
 
 
 def test_noop():
