@@ -25,5 +25,25 @@
             ""
         ],
         "equivalentJava": ""
+    },
+    "DeclareVariable": {
+        "pattern": [
+            "push",
+            "store"
+        ],
+        "equivalentJava": "int a = 5;"
+    },
+    "VarReturn":{
+        "pattern": [
+            "load",
+            "return"
+        ],
+        "equivalentJava": "return a;"
+    },
+    "VoidReturn":{
+        "pattern": [
+            "return"
+        ],
+        "equivalentJava": ""
     }
 }

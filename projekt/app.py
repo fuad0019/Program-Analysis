@@ -41,17 +41,32 @@ def writeToFile(JavaCode):
 
 def bytecode_interp(am):
     memory = [] 
+    pattern_list = []
     bytecode_list = find_method(am)["code"]["bytecode"]
-    print(bytecode_list)
+
     for i in range(len(bytecode_list)): # Loop dynamically adapts to the bytecode length
         b = bytecode_list[i]
+        pattern = detectPattern(memory) 
+        if pattern != None:
+            pattern_list.append(pattern)
+            memory = []
         memory.append(b)
+        #print(memory)
+    
     pattern = detectPattern(memory) 
-    javaCode = translateToJava(pattern)
-    writeToFile(javaCode)
+    if pattern != None:
+        pattern_list.append(pattern)
+    
+    print(pattern_list)
+    javaCode = []
+    for pattern in pattern_list:
+        javaCode.append(translateToJava(pattern))
+    print(javaCode)
+    #writeToFile(javaCode)
+    return "\n".join(javaCode)
 
 am = "Vardeclare", "DeclareInt"
-bytecode_interp(am)
+#bytecode_interp(am)
 
 
 
