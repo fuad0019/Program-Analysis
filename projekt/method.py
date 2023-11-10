@@ -23,9 +23,9 @@ def extract_class_info(json_data):
     return class_info
 
 
-file_path = "course-02242-examples-main\decompiled\dtu\compute\exec\Simple.json"  # Replace with the actual path to your JSON file
-with open(file_path, "r") as json_file:
-    json_data = json.load(json_file)
+#file_path = "course-02242-examples-main\decompiled\dtu\compute\exec\Simple.json"  # Replace with the actual path to your JSON file
+#with open(file_path, "r") as json_file:
+#    json_data = json.load(json_file)
 
 #print(extract_class_info(json_data))
 

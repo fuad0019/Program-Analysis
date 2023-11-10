@@ -1,13 +1,13 @@
 from pathlib import Path 
 import json
 
-with open('projekt/patterns.json') as f:
+with open('./patterns.json') as f:
     patterns = json.load(f)
 
 dc = Path("decompiled/")
 classes = {}
 
-with open("projekt/VarDeclare.json") as p:
+with open("./VarDeclare.json") as p:
     doc = json.load(p)
     classes[doc["name"]] = doc 
 
@@ -45,17 +45,15 @@ def bytecode_interp(am):
     bytecode_list = find_method(am)["code"]["bytecode"]
 
     for i in range(len(bytecode_list)): # Loop dynamically adapts to the bytecode length
-        b = bytecode_list[i]
+        b = bytecode_list[i]        
+        memory.append(b)
         pattern = detectPattern(memory) 
-        if pattern != None:
+        if pattern:
             pattern_list.append(pattern)
             memory = []
-        memory.append(b)
         #print(memory)
     
-    pattern = detectPattern(memory) 
-    if pattern != None:
-        pattern_list.append(pattern)
+
     
     print(pattern_list)
     javaCode = []

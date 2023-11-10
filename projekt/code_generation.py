@@ -94,7 +94,7 @@ def write_to_file(class_info, method_info, am):
     output_file = open(f"{class_info[0]['name']}.java", "w")
     output_file.write(generate_class_skeleton(class_info, method_info, am))
 
-file_path = "projekt/VarDeclare.json"  # Replace with the actual path to your JSON file
+file_path = "./VarDeclare.json"  # Replace with the actual path to your JSON file
 with open(file_path, "r") as json_file:
     json_data = json.load(json_file)
 
