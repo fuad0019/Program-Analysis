@@ -1,13 +1,13 @@
 from pathlib import Path 
 import json
 
-with open('projekt/patterns.json') as f:
+with open('./patterns.json') as f:
     patterns = json.load(f)
 
 dc = Path("decompiled/")
 classes = {}
 
-with open("projekt/VarDeclare.json") as p:
+with open("./VarDeclare.json") as p:
     doc = json.load(p)
     classes[doc["name"]] = doc 
 
@@ -25,13 +25,33 @@ def print_bytecode(am):
 
 def detectPattern(memory):
     memory_oprs = [item['opr'] for item in memory]  
+    print(memory_oprs)
     for key, value in patterns.items():
         if memory_oprs == value['pattern']:
-            return key
+            if key == "DeclareVariable":
+                pushOpr = list(filter(lambda x : x['opr'] == "push",memory))[0]
+                typeOfVariable = pushOpr["value"]["type"]
+                valueOfVariable = pushOpr["value"]["value"]
+                return "declare", key, typeOfVariable, valueOfVariable
+        
+            return "other",key
+    print(key)
 
 
-def translateToJava(patternName):
-    return patterns[patternName]['equivalentJava']
+def translateToJava(pattern):
+
+    print(pattern)
+    if pattern[0] == "declare":
+            category,name,typeVariable,valueVariable = pattern
+            typeInferredString = patterns[name]['equivalentJava'].replace("type", typeVariable).replace("value", str(valueVariable))
+
+    elif pattern[0] == "other":
+            category,name = pattern
+            typeInferredString = patterns[name]['equivalentJava']
+
+    print(typeInferredString)
+
+    return typeInferredString
 
 def writeToFile(JavaCode):
     # TODO: Implement writing to local Java file
@@ -46,11 +66,16 @@ def bytecode_interp(am):
     for i in range(len(bytecode_list)): # Loop dynamically adapts to the bytecode length
         b = bytecode_list[i]
         memory.append(b)
-    pattern = detectPattern(memory) 
-    javaCode = translateToJava(pattern)
-    writeToFile(javaCode)
+        pattern = detectPattern(memory) 
+        if pattern:
+            javaCode = translateToJava(pattern)
+            writeToFile(javaCode)
 
-am = "Vardeclare", "DeclareInt"
+
+        
+        
+
+am = "Vardeclare", "DeclareString"
 bytecode_interp(am)
 
 
@@ -64,77 +89,7 @@ def test_noop():
     print(s)
     print("--- DONE ---") 
 
-def test_zero():
-    print(" ")
-    c = "dtu/compute/exec/Simple", "zero"
-    (l, s) = [1], []
-    print("---", c, "---")         
-    s = bytecode_interp(c, l, s, print)
-    print(s)
-    print("--- DONE ---") 
 
-def test_identity():
-    print(" ")
-    c = "dtu/compute/exec/Simple", "identity"
-    (l, s) = [1], []
-    print("---", c, "---")         
-    s = bytecode_interp(c, l, s, print)
-    print(s)
-    print("--- DONE ---")   
-
-def test_add():
-    print(" ")
-    c = "dtu/compute/exec/Simple", "add"
-    (l, s) = [2,3], []
-    print("---", c, "---")         
-    s = bytecode_interp(c, l, s, print)
-    print(s)
-    print("--- DONE ---")
-
-def test_min(): 
-    print(" ")
-    c = "dtu/compute/exec/Simple", "min"
-    (l, s) = [4,3], []
-    print("---", c, "---")         
-    s = bytecode_interp(c, l, s, print)
-    print(s)
-    print("--- DONE ---")
-
-def test_min(): 
-    print(" ")
-    c = "dtu/compute/exec/Simple", "min"
-    (l, s) = [4,3], []
-    print("---", c, "---")         
-    s = bytecode_interp(c, l, s, print)
-    print(s)
-    print("--- DONE ---")
-
-def test_factorial(): 
-    print(" ")
-    c = "dtu/compute/exec/Simple", "factorial"
-    (l, s) = [5, 2], []
-    print("---", c, "---")         
-    s = bytecode_interp(c, l, s, print)
-    print(s)
-    print("--- DONE ---")
-
-def test_hundredAndTwo(): 
-    print(" ")
-    c = "dtu/compute/exec/Simple", "hundredAndTwo"
-    (l, s) = [], []
-    print("---", c, "---")         
-    s = bytecode_interp(c, l, s, print)
-    print(s)
-    print("--- DONE ---")
-
-def test_hundredAndTwo(): 
-    print(" ")
-    c = "dtu/compute/exec/Simple", "hundredAndTwo"
-    (l, s) = [], []
-    print("---", c, "---")         
-    s = bytecode_interp(c, l, s, print)
-    print(s)
-    print("--- DONE ---")
 
 
 

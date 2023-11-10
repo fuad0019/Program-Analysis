@@ -25,5 +25,11 @@
             ""
         ],
         "equivalentJava": ""
+    },
+    "DeclareVariable": {
+        "pattern": [
+            "push",
+            "store"        ],
+        "equivalentJava": "type a = value"
     }
 }
