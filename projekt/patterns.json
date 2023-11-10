@@ -31,7 +31,7 @@
             "push",
             "store"
         ],
-        "equivalentJava": "int a = 5;"
+        "equivalentJava": "type a = value;"
     },
     "VarReturn":{
         "pattern": [
