@@ -19,8 +19,9 @@ def detectPattern(memory):
                 pushOpr = list(filter(lambda x: x["opr"] == "push", memory))[0]
                 storeOpr = list(filter(lambda x: x["opr"] == "store", memory))[0]
 
+                
                 variableName = randomword(10)
-                localVariables[storeOpr["index"]] = variableName
+                localVariables[storeOpr["index"]] = variableName #Assign local variable and save it in a list
 
                 typeOfVariable = pushOpr["value"]["type"]
                 valueOfVariable = pushOpr["value"]["value"]
@@ -37,9 +38,11 @@ def detectPattern(memory):
 
                 typeOfObject = newOpr["class"]
                 
+                
                 variableName = randomword(10)
-                localVariables[storeOpr["index"]] = variableName
+                localVariables[storeOpr["index"]] = variableName #Assign local variable and save it in a list
 
+                #Insert correct type and value in java code
                 typeInferredString = (
                     patterns[key]["equivalentJava"]
                     .replace("type", str(typeOfObject))
@@ -58,18 +61,21 @@ def detectPattern(memory):
                     and invokeOpr["method"]["name"]
                 ):
                     methodName = invokeOpr["method"]["name"]
+                    #Insert correct variable name methodname in javacode
                     typeInferredString = (
                         patterns[key]["equivalentJava"]
                         .replace("methodCall", str(methodName))
-                        .replace("variable", localVariables[loadOpr["index"]])
+                        .replace("variable", localVariables[loadOpr["index"]])                #get local variable and insert it methodcall
+
                     )
 
             if key == "VarReturn":
                 loadOpr = list(filter(lambda x: x["opr"] == "load", memory))[0]
+                    #Insert correct variable name in javacode
 
                 typeInferredString = patterns[key]["equivalentJava"].replace(
                     "variable", localVariables[loadOpr["index"]]
-                )
+                )                                                                           #get local variable and insert it when returning
             return typeInferredString
     print(key)
 
@@ -95,6 +101,7 @@ def bytecode_interp(method):
 
     print("Finished Method")
     print(javaCode)
+
 
     return "\n".join(javaCodeList)
 
