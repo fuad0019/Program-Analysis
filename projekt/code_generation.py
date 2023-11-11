@@ -1,5 +1,54 @@
-from method import *
-from app import *
+from code_interpreter import *
+
+
+import json
+
+
+def extract_methods_signature(method):
+    name = method.get("name", "Unknown")
+    params = method.get("params", [])
+    access = method.get("access", "Unknown")
+    return_type = method.get("returns", {}).get("type", "Unknown")
+    if name == "<init>":
+        return ""
+    # Finds access of the method
+
+    # Determines if method is static
+    if len(access) > 1 and access[1] == "static":
+        access = f"{access[0]} {access[1]}"
+    else:
+        access = f"{access[0]}"
+
+    # Handles return type
+    if return_type == None or return_type == "null":
+        return_type = "void"
+    else:
+        return_type = return_paramfinder(return_type)
+
+    # Handles variables
+    # TODO each param should have a name, but this should correspond to the variable name in used in the code.
+    param_list = []
+    if len(params) == 0:
+        params = ""
+    else:
+        for param in params:
+            param_list.append(paramfinder(param))
+
+        params = ", ".join(param_list)
+
+    return f"{access} {return_type} {name}({params})"
+
+
+def extract_class_signatur(json_data):
+    class_signatur = []
+    class_name = json_data.get("name", "Unkown")
+    line = class_name.strip().split("/")
+    last_line = line[-1]
+
+    access = json_data.get("access", "Unkown")
+    class_signatur.append({"name": last_line, "access": access})
+
+    return class_signatur
 
 
 def paramfinder(param):
@@ -11,7 +60,8 @@ def paramfinder(param):
     elif "kind" in param["type"] and param["type"]["kind"] == "array":
         print(paramfinder(param["type"]))
         return paramfinder(param["type"]) + "[]"
-    
+
+
 def return_paramfinder(param):
     if "base" in param:
         return param["base"]
@@ -21,86 +71,45 @@ def return_paramfinder(param):
     elif "kind" in param and param["kind"] == "array":
         print(paramfinder(param))
         return paramfinder(param) + "[]"
-        
 
-def generate_method_skeleton(method_info, am):
+
+def generate_method(method):
     result = ""
-    for method in method_info[0:3]:
-        print(method)
-        #If <init> it should be handled in the class skeleton
-        if method["name"] == "<init>":
-            continue
+    # If <init> it should be handled in the class skeleton
 
-        if method["name"] == "main":
-            result += f"public static void main(String [] args) {'{}'}\n\n"
-            continue
+    if method["name"] == "<init>":
+        return ""
+    methodSignature = extract_methods_signature(method)
 
-        #Finds access of the method
-        access = method["access"]
+    method_line = f"{methodSignature} {'{'}\n{bytecode_interp(method)}{'}'}\n\n"
 
-        #Determines if method is static
-        if len(access) > 1 and access[1] == "static":
-            access = f"{access[0]} {access[1]}"
-        else:
-            access = f"{access[0]}"
-
-        #Handles return type
-        return_type = method["return_type"]
-        if return_type == None or return_type == "null":    
-            return_type = "void"
-        else:
-            return_type = return_paramfinder(return_type)
-
-        #Handles variables
-        #TODO each param should have a name, but this should correspond to the variable name in used in the code.
-        params = method["params"]
-        param_list = []
-        if len(params) == 0:
-            params = ""
-        else:
-            for param in params:
-                param_list.append(paramfinder(param))
-                
-            params = ", ".join(param_list)        
-
-        name = method["name"]
-
-        print(method["name"])
-        x = am, method["name"]
-        method_line = f"{access} {return_type} {name}({params}) {'{'}\n{bytecode_interp(x)}{'}'}\n\n"
-
-        result += method_line
+    result += method_line
 
     return result
 
-def generate_class_skeleton(class_info, method_info, am):
-    access = class_info[0]['access'][0]
-    name = class_info[0]['name']
 
-    #TODO Use the code from init to declare global variables
-    init = method_info[0]
+def generate_class(bytecode):
+    class_signatur = extract_class_signatur(bytecode)
 
+    access = class_signatur[0]["access"][0]
+    name = class_signatur[0]["name"]
 
+    # TODO Use the code from init to declare global variables
+    #init = method_info[0]
+
+    bytecode_methods = bytecode.get("methods", [])
+
+    method = ""
+    for bytecode_method in bytecode_methods[0:5]:
+        method = method + f"{generate_method(bytecode_method)}\n"
 
     result = f"{access} class {name} {'{'}\n\
-{generate_method_skeleton(method_info, am)}\
-{'}'}"  
-
-
+{method}\
+{'}'}"
     return result
 
 
-def write_to_file(class_info, method_info, am):
-    output_file = open(f"{class_info[0]['name']}.java", "w")
-    output_file.write(generate_class_skeleton(class_info, method_info, am))
 
-file_path = "./VarDeclare.json"  # Replace with the actual path to your JSON file
-with open(file_path, "r") as json_file:
-    json_data = json.load(json_file)
 
-class_info = extract_class_info(json_data)
-method_info = extract_methods_info(json_data)
 
-am = "Vardeclare"
 
-write_to_file(class_info,method_info, am)
