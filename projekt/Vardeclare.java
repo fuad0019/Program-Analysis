@@ -1,21 +1,21 @@
 public class VarDeclareTest {
 
 public int DeclareIntWithReturn() {
-integer loihrqavlm = 5;
-return loihrqavlm;}
+integer vsbxrzieal = 5;
+return vsbxrzieal;}
 
 
 public void DeclareString() {
-string idopphxiwh = hej;}
+string tgtuzawpvj = hej;}
 
 
 public void AssignObject() {
-TestClass yjidkvmsif = new TestClass();}
+TestClass zgplonhgbj = new TestClass();}
 
 
 public void methodCallOnObject() {
-TestClass svrvjgnvkw = new TestClass();
-svrvjgnvkw.tryMe()}
+TestClass emsnylmscd = new TestClass();
+emsnylmscd.tryMe()}
 
 
 }

@@ -39,7 +39,7 @@ def extract_methods_signature(method):
     return f"{access} {return_type} {name}({params})"
 
 
-def extract_class_signatur(json_data):
+def extract_class_signature(json_data):
     class_signatur = []
     class_name = json_data.get("name", "Unkown")
     line = class_name.strip().split("/")
@@ -89,7 +89,7 @@ def generate_method(method):
 
 
 def generate_class(bytecode):
-    class_signatur = extract_class_signatur(bytecode)
+    class_signatur = extract_class_signature(bytecode)
 
     access = class_signatur[0]["access"][0]
     name = class_signatur[0]["name"]
