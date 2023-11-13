@@ -5,29 +5,30 @@ int var0 = 5;
 return var0;}
 
 
+public void DeclareIntWithParams(int var0, int var1) {
+int var2 = var0;
+int var3 = var1;}
+
+
 public void DeclareString() {
-String var1 = "hej";}
+String var0 = "hej";}
 
 
 public void AssignObject() {
-TestClass var2 = new TestClass();}
+TestClass var0 = new TestClass();}
 
 
 public void methodCallOnObject() {
-TestClass var3 = new TestClass();
-var3.tryMe()}
+TestClass var0 = new TestClass();
+var0.tryMe();}
 
 
 public void constructObject() {
-new TestClass}
+new TestClass();}
 
 
 public void ifStatements() {
-int var4 = 0;}
-
-
-public void ifElseStatements() {
-int var5 = 0;}
+int var0 = 0;}
 
 
 }

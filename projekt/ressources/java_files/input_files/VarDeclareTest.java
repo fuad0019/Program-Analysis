@@ -10,6 +10,11 @@ public class VarDeclareTest {
         return a;
     }
 
+    public void DeclareIntWithParams(int a, int b){
+        int c = a;
+        int d = b;
+    }
+
     public void DeclareString() {
         String a = "hej";
     }

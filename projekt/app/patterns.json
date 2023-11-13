@@ -22,6 +22,13 @@
         ],
         "equivalentJava": "type variable = value;"
     },
+    "DeclareVariableFromParam": {
+        "pattern": [
+            "load",
+            "store"
+        ],
+        "equivalentJava": "type variable = value;"
+    },
     "VarReturn":{
         "pattern": [
             "load",
@@ -38,7 +45,7 @@
 
     "methodCall":{
         "pattern":["load","invoke"],
-        "equivalentJava": "variable.methodCall()"
+        "equivalentJava": "variable.methodCall();"
     }
 ,
     "DeclareVariableAndAssignObject":{
@@ -47,7 +54,7 @@
     },
     "ConstructObject": {
         "pattern": ["new", "dup", "invoke", "pop"],
-        "equivalentJava": "new type"
+        "equivalentJava": "new type();"
     },
     "conditional": {
         "pattern": ["if"],
