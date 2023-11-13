@@ -156,37 +156,38 @@ def detectPattern(memory, method, flowGraph, javaCodeList):
 
                 
 
-        
+                print(comparer)
 
-                typeInferredString = typeInferredString = (
-                        patterns["conditional"]["equivalentJava"]
-                        .replace("a", str(valuesToCompare[0]))
-                        .replace("comparer", comparer)
-                        .replace("b", str(valuesToCompare[1]))
-                    )
-            
+                typeInferredString = patterns["conditional"]["equivalentJava"].replace("variable1", str(valuesToCompare[0])).replace("comparer", comparer).replace("variable2", str(valuesToCompare[1]))
+                print(typeInferredString)
+                
+                newJavaCodeList.append(typeInferredString)
                 flowGraph.addIndexToCurrentNode(len(newJavaCodeList)-1)
-                flowGraph.CreateNode(len(newJavaCodeList))
+                flowGraph.CreateNode()
                 
 
-                newJavaCodeList.append(typeInferredString)
+                
                 break
 
         elif is_subsequence(patterns["jump"]["pattern"], memory_oprs):
             print(f"\n THIS IS THE Jump {key}")
-            flowGraph.CreateNode(len(javaCodeList)-1)
+            flowGraph.CreateNode()
             flowGraph.addOprToCurrentNode(memory[-1]) 
                 
             result = flowGraph.detectLoop( memory[-1])
+
             print(result)
             if result[0] == True:
                 inLoop ,indexForHeader = result
                 print(indexForHeader)
                 javaCodeConditional = newJavaCodeList[indexForHeader]
+                print(f"This is the old String {javaCodeConditional}")
                 typeInferredString = (
                         javaCodeConditional
                         .replace("if", "while")
                     )
+                print(f"This is the new String {typeInferredString}")
+
                 newJavaCodeList[indexForHeader] = typeInferredString
 
                 newJavaCodeList.append("}")
@@ -207,7 +208,7 @@ def bytecode_interp(method):
     bytecode_list = method["code"]["bytecode"]
 
     flowGraph = FlowGraph()
-    flowGraph.CreateNode(len(javaCodeList)-1)
+    flowGraph.CreateNode()
 
     for i in range(
         len(bytecode_list)

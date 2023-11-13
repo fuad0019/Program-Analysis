@@ -51,7 +51,7 @@
     },
     "conditional": {
         "pattern": ["if"],
-        "equivalentJava": "if (a comparer b){"
+        "equivalentJava": "if (variable1 comparer variable2){"
     },
     "jump": {
         "pattern": ["goto"],
