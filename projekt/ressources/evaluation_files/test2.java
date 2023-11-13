@@ -10,10 +10,10 @@ public class SimpleJavaProgram {
 
         String response = processInput(userInput);
 
-        System.out.println("Response: " + response);
+        System.out.println("Response: " + response);hh
     }
 
-    private static String processInput(String input) {
+    private static String processInput(String input) {s
         // Perform some processing on the input and return a response
         return "You entered: " + input;
     }
