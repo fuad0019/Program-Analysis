@@ -38,7 +38,7 @@
 
     "methodCall":{
         "pattern":["load","invoke"],
-        "equivalentJava": "variable.methodCall()"
+        "equivalentJava": "variable.methodCall();"
     }
 ,
     "DeclareVariableAndAssignObject":{
@@ -47,14 +47,14 @@
     },
     "ConstructObject": {
         "pattern": ["new", "dup", "invoke", "pop"],
-        "equivalentJava": "new type"
+        "equivalentJava": "new type();"
     },
     "conditional": {
         "pattern": ["if"],
         "equivalentJava": "if (a comparer b){"
     },
-    "Jump": {
-        "pattern": ["Jump"],
+    "jump": {
+        "pattern": ["goto"],
         "equivalentJava": "loopType ( condition ){basicBlock}"
     }
 }

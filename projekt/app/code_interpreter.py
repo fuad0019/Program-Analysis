@@ -2,6 +2,7 @@ import json
 from VariableNamer import *
 from correctTypeInferer import inferTypeAndValue, inferValue
 from FlowGraph import *
+from SubSequence import is_subsequence
 
 
 with open("./patterns.json") as f:
@@ -12,6 +13,8 @@ variableNamer = VariableNamer()
 
 def detectPattern(memory, method, flowGraph, javaCodeList):
     memory_oprs = [item["opr"] for item in memory]
+    print(memory_oprs)
+
     newJavaCodeList = javaCodeList.copy()
 
     typeInferredString = ""
@@ -21,6 +24,7 @@ def detectPattern(memory, method, flowGraph, javaCodeList):
     for key, value in patterns.items():
         
         if memory_oprs == value["pattern"]:
+            print(f"\n THIS IS THE KEY {key}")
             if key == "DeclareVariable":
                 pushOpr = list(filter(lambda x: x["opr"] == "push", memory))[0]
                 storeOpr = list(filter(lambda x: x["opr"] == "store", memory))[0]
@@ -112,14 +116,22 @@ def detectPattern(memory, method, flowGraph, javaCodeList):
                 )
                 newJavaCodeList.append(typeInferredString)
 
-            if key == "conditional":
+            
+                
+            
+              #Important that this is outside of conditional indentation
+
+          
+        elif is_subsequence(patterns["conditional"]["pattern"], memory_oprs):
+                print(f"\n THIS IS THE KEY {key}")
                 oprsToCompare = [memory[-3], memory[-2]]
 
                 valuesToCompare = []
 
                 for opr in oprsToCompare:
+                    print(opr)
                     if opr["opr"] == "load":
-                        variableName = variableNamer.GetVariableName[opr["index"]]
+                        variableName = variableNamer.GetVariableName(opr["index"])
                         valuesToCompare.append(variableName)
 
                     if opr["opr"] == "push":
@@ -131,51 +143,60 @@ def detectPattern(memory, method, flowGraph, javaCodeList):
                 #TODO: change this to operator map
                 if memory[-1]["condition"] == "ge":
                     comparer = "<"
-                if memory[-1]["condition"] == "le":
+                elif memory[-1]["condition"] == "le":
                     comparer = ">"
-                if memory[-1]["condition"] == "ne":
+                elif memory[-1]["condition"] == "ne":
                     comparer = "=="
-                if memory[-1]["condition"] == "gt":
+                elif memory[-1]["condition"] == "gt":
                     comparer = "<="
-                if memory[-1]["condition"] == "lt":
+                elif memory[-1]["condition"] == "lt":
                     comparer = ">="
-                if memory[-1]["condition"] == "eq":
+                elif memory[-1]["condition"] == "eq":
                     comparer = "!="
 
+                
+
+        
 
                 typeInferredString = typeInferredString = (
-                        patterns[key]["equivalentJava"]
-                        .replace("a", valuesToCompare[0])
+                        patterns["conditional"]["equivalentJava"]
+                        .replace("a", str(valuesToCompare[0]))
                         .replace("comparer", comparer)
-                        .replace("b", valuesToCompare[1])
+                        .replace("b", str(valuesToCompare[1]))
                     )
-                
+            
                 flowGraph.addIndexToCurrentNode(len(newJavaCodeList)-1)
-                flowGraph.CreateNode()
+                flowGraph.CreateNode(len(newJavaCodeList))
                 
 
                 newJavaCodeList.append(typeInferredString)
-            
-              #Important that this is outside of conditional indentation
+                break
 
-            if key == "Jump":
-                print("hello")
-                flowGraph.CreateNode()
-                flowGraph.addOprToCurrentNode(memory[-1])
+        elif is_subsequence(patterns["jump"]["pattern"], memory_oprs):
+            print(f"\n THIS IS THE Jump {key}")
+            flowGraph.CreateNode(len(javaCodeList)-1)
+            flowGraph.addOprToCurrentNode(memory[-1]) 
                 
-                result = flowGraph.detectLoop(method, method[-1])
-                if result[0] == True:
-                    inLoop ,indexForHeader = result
-
-                    javaCodeConditional = newJavaCodeList[indexForHeader]
-                    typeInferredString = (
+            result = flowGraph.detectLoop( memory[-1])
+            print(result)
+            if result[0] == True:
+                inLoop ,indexForHeader = result
+                print(indexForHeader)
+                javaCodeConditional = newJavaCodeList[indexForHeader]
+                typeInferredString = (
                         javaCodeConditional
                         .replace("if", "while")
                     )
-                    newJavaCodeList[indexForHeader] = typeInferredString
-                
+                newJavaCodeList[indexForHeader] = typeInferredString
+
+                newJavaCodeList.append("}")
+                break
+
+
+
+        
+      
                 # get local variable and insert it when returning
-    print(key)
     return newJavaCodeList
     
 
@@ -195,9 +216,11 @@ def bytecode_interp(method):
         memory.append(b)
 
         newjavaCodeList = detectPattern(memory, method, flowGraph, javaCodeList)
+
         if len(javaCodeList) != len(newjavaCodeList):
             javaCodeList = newjavaCodeList
             print("DETECTED PATTERN")
+            print(f"LENGTH OF LIST {len(newjavaCodeList)}")   
             print(f"Javcode: {javaCodeList}")
 
             

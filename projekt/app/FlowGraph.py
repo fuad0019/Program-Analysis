@@ -23,7 +23,7 @@ class FlowGraph:
         self.currentNode.addToBasicBlock(opr)
 
     def addIndexToCurrentNode(self, index):
-        self.addIndexToCurrentNode(index)
+        self.index = index
         
 
     
@@ -46,18 +46,21 @@ class FlowGraph:
     def detectLoop(self,gotoOpr ):
 
         inLoop = False
-     
-        
-        
-            
-            
-            
-        if gotoOpr["target"]  in self.visitedProgramCounters:
 
-            node = filter(lambda node: [opr for opr in node.getbasicBlock() if opr["index"] == gotoOpr["target"]] )
+            
+            
+        print(gotoOpr["target"]) #2
+        print(self.visitedProgramCounters) #[0,1,2,3,4]
+
+
+        if gotoOpr["target"]  in self.visitedProgramCounters:
+            inLoop = True
+
+            node = list(filter(lambda node: [opr for opr in node.getBasicBlock() if opr["offset"] == gotoOpr["target"]], self.Nodes ))[0]
              
             while len(node.getSuccessors())>0:
                 headerIndex = node.getIndex()
+                print(headerIndex)
                 if headerIndex:
                     break
                 node = node.getSuccessors()[0]
