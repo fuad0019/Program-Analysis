@@ -173,17 +173,19 @@ def bytecode_interp(method):
     ):  # Loop dynamically adapts to the bytecode length
         b = bytecode_list[i]
         memory.append(b)
-        javaCodeList = detectPattern(memory, method, flowGraph, javaCodeList)
-        if javaCode:
-            print("DETECTED PATTERN")
-            print(f"Javcode: {javaCode}")
 
-            javaCodeList.append(javaCode)
+        newjavaCodeList = detectPattern(memory, method, flowGraph, javaCodeList)
+        if len(javaCodeList) != len(newjavaCodeList):
+            javaCodeList = newjavaCodeList
+            print("DETECTED PATTERN")
+            print(f"Javcode: {javaCodeList}")
+
+            javaCodeList.append(javaCodeList)
             memory = []
         # print(memory)
 
     print("Finished Method")
-    print(javaCode)
+    print(f"Full Javcode: {javaCodeList}")
 
     return "\n".join(javaCodeList)
 
