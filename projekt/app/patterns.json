@@ -22,6 +22,13 @@
         ],
         "equivalentJava": "type variable = value;"
     },
+    "DeclareVariableFromParam": {
+        "pattern": [
+            "load",
+            "store"
+        ],
+        "equivalentJava": "type variable = value;"
+    },
     "VarReturn":{
         "pattern": [
             "load",

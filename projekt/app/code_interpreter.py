@@ -5,13 +5,13 @@ from FlowGraph import *
 from SubSequence import is_subsequence
 
 
-with open("./patterns.json") as f:
+with open("projekt/app/patterns.json") as f:
     patterns = json.load(f)
 
-variableNamer = VariableNamer()
+#variableNamer = VariableNamer()
 
 
-def detectPattern(memory, method, flowGraph, javaCodeList):
+def detectPattern(memory, method, variableNamer, flowGraph, javaCodeList):
     memory_oprs = [item["opr"] for item in memory]
     print(memory_oprs)
 
@@ -39,6 +39,26 @@ def detectPattern(memory, method, flowGraph, javaCodeList):
                     patterns[key]["equivalentJava"]
                     .replace("type", type)
                     .replace("value", str(value))
+                    .replace(
+                        "variable", variableNamer.GetVariableName(storeOpr["index"])
+                    )
+                )
+                newJavaCodeList.append(typeInferredString)
+
+            if key == "DeclareVariableFromParam":
+                loadOpr = list(filter(lambda x: x["opr"] == "load", memory))[0]
+                storeOpr = list(filter(lambda x: x["opr"] == "store", memory))[0]
+
+                variableNamer.SetVariableName(storeOpr["index"])
+
+                typeOfVariable = str(loadOpr["type"])
+                nameOfVariable = variableNamer.GetVariableName(loadOpr["index"])
+
+                #type, value = inferTypeAndValue(typeOfVariable, valueOfVariable)
+                typeInferredString = (
+                    patterns[key]["equivalentJava"]
+                    .replace("type", typeOfVariable)
+                    .replace("value", str(nameOfVariable))
                     .replace(
                         "variable", variableNamer.GetVariableName(storeOpr["index"])
                     )
@@ -202,7 +222,7 @@ def detectPattern(memory, method, flowGraph, javaCodeList):
     
 
 
-def bytecode_interp(method):
+def bytecode_interp(method, variableNamer):
     memory = []
     javaCodeList = []
     bytecode_list = method["code"]["bytecode"]
@@ -216,8 +236,7 @@ def bytecode_interp(method):
         b = bytecode_list[i]
         memory.append(b)
 
-        newjavaCodeList = detectPattern(memory, method, flowGraph, javaCodeList)
-
+        newjavaCodeList = detectPattern(memory, method, variableNamer, flowGraph, javaCodeList)
         if len(javaCodeList) != len(newjavaCodeList):
             javaCodeList = newjavaCodeList
             print("DETECTED PATTERN")

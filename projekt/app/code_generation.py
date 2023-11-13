@@ -1,8 +1,29 @@
 from code_interpreter import *
+from VariableNamer import *
+
+def paramfinder(param):
+    if "base" in param["type"]:
+        return param["type"]["base"]
+    elif "kind" in param["type"] and param["type"]["kind"] == "class":
+        name = param["type"]["name"].split("/")[-1]
+        return name
+    elif "kind" in param["type"] and param["type"]["kind"] == "array":
+        print(paramfinder(param["type"]))
+        return paramfinder(param["type"]) + "[]"
 
 
+def return_paramfinder(param):
+    if "base" in param:
+        return param["base"]
+    elif "kind" in param and param["kind"] == "class":
+        name = param["name"].split("/")[-1]
+        return name
+    elif "kind" in param and param["kind"] == "array":
+        print(paramfinder(param))
+        return paramfinder(param) + "[]"
 
-def extract_methods_signature(method):
+
+def extract_methods_signature(method, variableNamer):
     name = method.get("name", "Unknown")
     params = method.get("params", [])
     access = method.get("access", "Unknown")
@@ -29,8 +50,11 @@ def extract_methods_signature(method):
     if len(params) == 0:
         params = ""
     else:
+        index = 1
         for param in params:
-            param_list.append(paramfinder(param))
+            variableNamer.SetVariableName(index)
+            param_list.append(f"{paramfinder(param)} {variableNamer.GetVariableName(index)}")
+            index += 1
 
         params = ", ".join(param_list)
 
@@ -49,37 +73,18 @@ def extract_class_signature(json_data):
     return class_signatur
 
 
-def paramfinder(param):
-    if "base" in param["type"]:
-        return param["type"]["base"]
-    elif "kind" in param["type"] and param["type"]["kind"] == "class":
-        name = param["type"]["name"].split("/")[-1]
-        return name
-    elif "kind" in param["type"] and param["type"]["kind"] == "array":
-        print(paramfinder(param["type"]))
-        return paramfinder(param["type"]) + "[]"
-
-
-def return_paramfinder(param):
-    if "base" in param:
-        return param["base"]
-    elif "kind" in param and param["kind"] == "class":
-        name = param["name"].split("/")[-1]
-        return name
-    elif "kind" in param and param["kind"] == "array":
-        print(paramfinder(param))
-        return paramfinder(param) + "[]"
-
 
 def generate_method(method):
     result = ""
     # If <init> it should be handled in the class skeleton
 
-    if method["name"] == "<init>":
-        return ""
-    methodSignature = extract_methods_signature(method)
+    variableNamer = VariableNamer()
 
-    method_line = f"{methodSignature} {'{'}\n{bytecode_interp(method)}{'}'}\n\n"
+    if method["name"] == "<init>":
+        return bytecode_interp(method, variableNamer)
+    methodSignature = extract_methods_signature(method,variableNamer)
+
+    method_line = f"{methodSignature} {'{'}\n{bytecode_interp(method, variableNamer)}{'}'}\n\n"
 
     result += method_line
 

@@ -1,20 +1,34 @@
 public class VarDeclareTest {
 
-    public int DeclareIntWithReturn() {
-        int qhfyvnrgqc = 5;
-        return qhfyvnrgqc;
-    }
+public int DeclareIntWithReturn() {
+int var0 = 5;
+return var0;}
 
-    public void DeclareString() {
-        String gokimqqjlc = "hej";
-    }
 
-    public void AssignObject() {
-        TestClass pauzlzfqdo = new TestClass();
-    }
+public void DeclareIntWithParams(int var0, int var1) {
+int var2 = var0;
+int var3 = var1;}
+
+
+public void DeclareString() {
+String var0 = "hej";}
+
+
+public void AssignObject() {
+TestClass var0 = new TestClass();}
+
 
 public void methodCallOnObject() {
-TestClass zezbmsatmn = new TestClass();
-zezbmsatmn.tryMe()}
+TestClass var0 = new TestClass();
+var0.tryMe();}
+
+
+public void constructObject() {
+new TestClass();}
+
+
+public void ifStatements() {
+int var0 = 0;}
+
 
 }
