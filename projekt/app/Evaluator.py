@@ -17,11 +17,9 @@ def EvaluateDecompiler(file1, file2):
             content1 = f1.readlines()
             content2 = f2.readlines()
 
-            # Use difflib to calculate similarity
             similarity = difflib.SequenceMatcher(None, content1, content2).ratio()
             similarity_percentage = similarity * 100
 
-            # Generate a diff
             diff = difflib.unified_diff(content1, content2, fromfile=file1, tofile=file2)
 
             print(f"Similarity: {similarity_percentage:.2f}%")
