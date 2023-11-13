@@ -103,7 +103,7 @@ def generate_class(bytecode):
     bytecode_methods = bytecode.get("methods", [])
 
     method = ""
-    for bytecode_method in bytecode_methods[0:8]:
+    for bytecode_method in bytecode_methods[0:9]:
         method = method + f"{generate_method(bytecode_method)}\n"
 
     result = f"{access} class {name} {'{'}\n\
