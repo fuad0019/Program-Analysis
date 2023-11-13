@@ -1,0 +1,60 @@
+{
+    "add": {
+        "pattern": [
+            "push",
+            "push",
+            "binary",
+            "return"
+        ],
+        "equivalentJava": "return a + b;"
+    },
+    "subtract": {
+        "pattern": [
+            ""
+        ],
+        "equivalentJava": ""
+    },
+
+    "DeclareVariable": {
+        "pattern": [
+            "push",
+            "store"
+        ],
+        "equivalentJava": "type variable = value;"
+    },
+    "VarReturn":{
+        "pattern": [
+            "load",
+            "return"
+        ],
+        "equivalentJava": "return variable;"
+    },
+    "VoidReturn":{
+        "pattern": [
+            "return"
+        ],
+        "equivalentJava": ""
+    },
+
+    "methodCall":{
+        "pattern":["load","invoke"],
+        "equivalentJava": "variable.methodCall()"
+    }
+,
+    "DeclareVariableAndAssignObject":{
+        "pattern":["new", "dup", "invoke", "store"],
+        "equivalentJava": "type variable = new type();"
+    },
+    "ConstructObject": {
+        "pattern": ["new", "dup", "invoke", "pop"],
+        "equivalentJava": "new type"
+    },
+    "conditional": {
+        "pattern": ["if"],
+        "equivalentJava": "if (a comparer b){"
+    },
+    "Jump": {
+        "pattern": ["Jump"],
+        "equivalentJava": "loopType ( condition ){basicBlock}"
+    }
+}
