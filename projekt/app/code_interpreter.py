@@ -41,7 +41,9 @@ def detectPattern(memory, method, flowGraph, javaCodeList):
                 )
                 newJavaCodeList.append(typeInferredString)
 
-            if key == "DeclareVariableAndAssignObject" or key == "ConstructObject":
+            if key == "DeclareVariableAndAssignObject" :
+                print(memory)
+
                 newOpr = list(filter(lambda x: x["opr"] == "new", memory))[0]
                 storeOpr = list(filter(lambda x: x["opr"] == "store", memory))[0]
 
@@ -58,6 +60,23 @@ def detectPattern(memory, method, flowGraph, javaCodeList):
                     .replace(
                         "variable", variableNamer.GetVariableName(storeOpr["index"])
                     )
+                )
+                newJavaCodeList.append(typeInferredString)
+
+            if  key == "ConstructObject":
+                print(memory)
+                
+                newOpr = list(filter(lambda x: x["opr"] == "new", memory))[0]
+
+                typeOfObject = newOpr["class"]
+
+                
+
+                # Insert correct type and value in java code
+                typeInferredString = (
+                    patterns[key]["equivalentJava"]
+                    .replace("type", str(typeOfObject))
+                   
                 )
                 newJavaCodeList.append(typeInferredString)
 
@@ -140,6 +159,7 @@ def detectPattern(memory, method, flowGraph, javaCodeList):
               #Important that this is outside of conditional indentation
 
             if key == "Jump":
+                print("hello")
                 flowGraph.CreateNode()
                 flowGraph.addOprToCurrentNode(memory[-1])
                 
@@ -155,9 +175,9 @@ def detectPattern(memory, method, flowGraph, javaCodeList):
                     newJavaCodeList[indexForHeader] = typeInferredString
                 
                 # get local variable and insert it when returning
-
-            return newJavaCodeList
     print(key)
+    return newJavaCodeList
+    
 
 
 def bytecode_interp(method):
@@ -180,7 +200,7 @@ def bytecode_interp(method):
             print("DETECTED PATTERN")
             print(f"Javcode: {javaCodeList}")
 
-            javaCodeList.append(javaCodeList)
+            
             memory = []
         # print(memory)
 

@@ -27,10 +27,10 @@ class Node:
     def getBasicBlock(self):
         return self.basicBlock
 
-    def addIndex(index):
+    def addIndex(self,index):
         self.index = index
     
-    def getIndex():
+    def getIndex(self):
         return self.index
         
 
