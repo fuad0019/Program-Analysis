@@ -4,7 +4,7 @@ from correctTypeInferer import inferTypeAndValue, inferValue
 from FlowGraph import *
 
 
-with open("./patterns.json") as f:
+with open("projekt/app/patterns.json") as f:
     patterns = json.load(f)
 
 variableNamer = VariableNamer()

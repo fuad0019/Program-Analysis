@@ -2,9 +2,16 @@ from code_generation import generate_class
 
 from file_writer import *
 
-def main():
-    inputFileName = "../ressources/json_bytecode_files/VarDeclareTest.json"
-    OutputFile = "../ressources/java_files/output_files/VarDeclare.java"
+def main(inputPath, outputPath):
+    inputFileName = ""
+    outputFile = ""
+    if(inputPath == None or outputPath == None):
+        inputFileName = "projekt/ressources/json_bytecode_files/VarDeclareTest.json"
+        OutputFile = "projekt/ressources/java_files/output_files/VarDeclare.java"
+    else: 
+        inputFileName = inputPath
+        outputFile = outputPath
+
     
     json_data = read_file(inputFileName)
 
@@ -14,5 +21,5 @@ def main():
     write_to_file(content, OutputFile)
 
 if __name__ == "__main__":
-    main()
+    main(None, None)
 
