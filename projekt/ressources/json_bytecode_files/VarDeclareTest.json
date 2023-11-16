@@ -506,11 +506,11 @@
             },
             "code": {
                 "max_stack": 2,
-                "max_locals": 3,
+                "max_locals": 4,
                 "exceptions": [],
                 "stack_map": [
                     {
-                        "index": 7,
+                        "index": 9,
                         "type": "append_frame",
                         "info": [
                             {
@@ -552,7 +552,7 @@
                         "offset": 4,
                         "opr": "if",
                         "condition": "ge",
-                        "target": 7
+                        "target": 9
                     },
                     {
                         "offset": 7,
@@ -570,82 +570,6 @@
                     },
                     {
                         "offset": 10,
-                        "opr": "push",
-                        "value": {
-                            "type": "string",
-                            "value": "hello"
-                        }
-                    },
-                    {
-                        "offset": 12,
-                        "opr": "store",
-                        "type": "ref",
-                        "index": 2
-                    },
-                    {
-                        "offset": 13,
-                        "opr": "return",
-                        "type": null
-                    }
-                ]
-            },
-            "annotations": [],
-            "exceptions": [],
-            "default": null
-        },
-        {
-            "name": "ifElseStatements",
-            "access": [
-                "public"
-            ],
-            "typeparams": [],
-            "params": [],
-            "returns": {
-                "type": null,
-                "annotations": []
-            },
-            "code": {
-                "max_stack": 2,
-                "max_locals": 3,
-                "exceptions": [],
-                "stack_map": [
-                    {
-                        "index": 8,
-                        "type": "append_frame",
-                        "info": [
-                            {
-                                "type": "integer"
-                            }
-                        ]
-                    },
-                    {
-                        "index": 10,
-                        "type": "same"
-                    }
-                ],
-                "bytecode": [
-                    {
-                        "offset": 0,
-                        "opr": "push",
-                        "value": {
-                            "type": "integer",
-                            "value": 0
-                        }
-                    },
-                    {
-                        "offset": 1,
-                        "opr": "store",
-                        "type": "int",
-                        "index": 1
-                    },
-                    {
-                        "offset": 2,
-                        "opr": "load",
-                        "type": "int",
-                        "index": 1
-                    },
-                    {
-                        "offset": 3,
                         "opr": "push",
                         "value": {
                             "type": "integer",
@@ -653,32 +577,13 @@
                         }
                     },
                     {
-                        "offset": 4,
-                        "opr": "if",
-                        "condition": "eq",
-                        "target": 8
-                    },
-                    {
-                        "offset": 7,
-                        "opr": "push",
-                        "value": {
-                            "type": "integer",
-                            "value": 10
-                        }
-                    },
-                    {
-                        "offset": 9,
+                        "offset": 11,
                         "opr": "store",
                         "type": "int",
-                        "index": 2
+                        "index": 3
                     },
                     {
-                        "offset": 10,
-                        "opr": "goto",
-                        "target": 10
-                    },
-                    {
-                        "offset": 13,
+                        "offset": 12,
                         "opr": "push",
                         "value": {
                             "type": "string",
@@ -686,13 +591,13 @@
                         }
                     },
                     {
-                        "offset": 15,
+                        "offset": 14,
                         "opr": "store",
                         "type": "ref",
                         "index": 2
                     },
                     {
-                        "offset": 16,
+                        "offset": 15,
                         "opr": "return",
                         "type": null
                     }
@@ -809,7 +714,7 @@
     "innerclasses": [],
     "annotations": [],
     "version": [
-        64,
+        61,
         0
     ]
 }
