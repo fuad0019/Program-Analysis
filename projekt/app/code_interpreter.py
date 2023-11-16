@@ -8,6 +8,9 @@ from SubSequence import is_subsequence
 with open("./patterns.json") as f:
     patterns = json.load(f)
 
+pushMap = {} # TO know what operator we are on
+
+
 #variableNamer = VariableNamer()
 
 
@@ -143,6 +146,7 @@ def detectPattern(memory, method, variableNamer, flowGraph, javaCodeList):
 
           
         elif is_subsequence(patterns["conditional"]["pattern"], memory_oprs):
+
                 print(f"\n THIS IS THE KEY {key}")
                 oprsToCompare = [memory[-3], memory[-2]]
 
@@ -174,7 +178,10 @@ def detectPattern(memory, method, variableNamer, flowGraph, javaCodeList):
                 elif memory[-1]["condition"] == "eq":
                     comparer = "!="
 
-                
+                endPositionOfIf =   memory[-1]["target"]
+
+
+
 
                 print(comparer)
 

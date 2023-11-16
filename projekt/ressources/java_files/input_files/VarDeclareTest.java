@@ -40,24 +40,15 @@ public class VarDeclareTest {
 
             int a = 10;
 
+            int b = 1;
+            
+
         }
 
         String b = "hello";
     }
 
-    public void ifElseStatements() {
-        int counter = 0;
-        if (counter != 1) {
-
-            int a = 10;
-
-        }
-
-        else {
-            String b = "hello";
-        }
-
-    }
+  
 
     public void loopWithBasicBlocks() {
         int counter = 0;

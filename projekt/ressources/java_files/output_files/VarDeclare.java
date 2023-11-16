@@ -28,7 +28,17 @@ new TestClass();}
 
 
 public void ifStatements() {
-int var0 = 0;}
+int var0 = 0;
+if (var0 < 1){
+int var1 = 10;
+String var2 = "hello";}
+
+
+public void loopWithBasicBlocks() {
+int var0 = 0;
+while (var0 < 10){
+String var1 = "hello";
+}}
 
 
 }
