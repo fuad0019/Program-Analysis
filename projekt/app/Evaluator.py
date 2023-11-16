@@ -7,7 +7,7 @@ import difflib
 
 TestInputFile = "projekt/ressources/evaluation_files/test1.java"
 TestOutputFile = "projekt/ressources/evaluation_files/test2.java"
-#HOWTO: First compile the original java file, you want decompile. Convert the .class file
+#HOWTO: First compile the original java file, you want to decompile. Convert the .class file
 #to json, with JVM2Json. Decompile the json, this is your file1.
 # Now compile file1, convert to json, and decompile, this your file2. 
 #This method will then compare the two, and give a percentage on how similar they are.  
