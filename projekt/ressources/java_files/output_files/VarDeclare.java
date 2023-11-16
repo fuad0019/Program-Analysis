@@ -31,7 +31,8 @@ public void ifStatements() {
 int var0 = 0;
 if (var0 < 1){
 int var1 = 10;
-String var2 = "hello";}
+int var2 = 1;
+}}
 
 
 public void loopWithBasicBlocks() {
