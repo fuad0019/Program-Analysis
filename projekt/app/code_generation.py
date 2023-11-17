@@ -90,6 +90,14 @@ def generate_method(method):
 
     return result
 
+def generateGlobals(bytecode):
+    fields = bytecode["fields"]
+    globals = []
+    for field in fields:
+        globals.append(f"{field['access'][0]} {paramfinder(field)} {field['name']};")
+    return "\n".join(globals)
+
+
 
 def generate_class(bytecode):
     class_signatur = extract_class_signature(bytecode)
@@ -97,17 +105,19 @@ def generate_class(bytecode):
     access = class_signatur[0]["access"][0]
     name = class_signatur[0]["name"]
 
-    # TODO Use the code from init to declare global variables
-    #init = method_info[0]
-
     bytecode_methods = bytecode.get("methods", [])
+
+    print("Generating Globals:")
+    globals = "\n" + generateGlobals(bytecode) + "\n"
+    print(globals)
 
     method = ""
     for bytecode_method in bytecode_methods[0:9]:
         method = method + f"{generate_method(bytecode_method)}\n"
 
     result = f"{access} class {name} {'{'}\n\
-{method}\
+    {globals}\
+    {method}\
 {'}'}"
     return result
 

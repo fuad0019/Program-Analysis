@@ -29,6 +29,14 @@
         ],
         "equivalentJava": "type variable = value;"
     },
+    "DeclareVariableFromGlobal": {
+        "pattern": [
+            "load",
+            "get",
+            "store"
+        ],
+        "equivalentJava": "type variable = this.value;"
+    },
     "VarReturn":{
         "pattern": [
             "load",

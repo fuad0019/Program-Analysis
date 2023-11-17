@@ -2,7 +2,7 @@ public class VarDeclareTest {
 
 
     public int t = 5;
-    public int k = 7;
+    public int k;
 
 
     public int DeclareIntWithReturn() {
@@ -13,6 +13,10 @@ public class VarDeclareTest {
     public void DeclareIntWithParams(int a, int b){
         int c = a;
         int d = b;
+    }
+
+    public void UsingAGlobalVariable(){
+        int a = this.t;
     }
 
     public void DeclareString() {

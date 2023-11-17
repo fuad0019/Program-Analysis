@@ -103,30 +103,6 @@
                     },
                     {
                         "offset": 9,
-                        "opr": "load",
-                        "type": "ref",
-                        "index": 0
-                    },
-                    {
-                        "offset": 10,
-                        "opr": "push",
-                        "value": {
-                            "type": "integer",
-                            "value": 7
-                        }
-                    },
-                    {
-                        "offset": 12,
-                        "opr": "put",
-                        "static": false,
-                        "field": {
-                            "class": "VarDeclareTest",
-                            "name": "k",
-                            "type": "int"
-                        }
-                    },
-                    {
-                        "offset": 15,
                         "opr": "return",
                         "type": null
                     }
@@ -243,6 +219,56 @@
                         "opr": "store",
                         "type": "int",
                         "index": 4
+                    },
+                    {
+                        "offset": 5,
+                        "opr": "return",
+                        "type": null
+                    }
+                ]
+            },
+            "annotations": [],
+            "exceptions": [],
+            "default": null
+        },
+        {
+            "name": "UsingAGlobalVariable",
+            "access": [
+                "public"
+            ],
+            "typeparams": [],
+            "params": [],
+            "returns": {
+                "type": null,
+                "annotations": []
+            },
+            "code": {
+                "max_stack": 1,
+                "max_locals": 2,
+                "exceptions": [],
+                "stack_map": null,
+                "bytecode": [
+                    {
+                        "offset": 0,
+                        "opr": "load",
+                        "type": "ref",
+                        "index": 0
+                    },
+                    {
+                        "offset": 1,
+                        "opr": "get",
+                        "static": false,
+                        "field": {
+                            "class": "VarDeclareTest",
+                            "name": "t",
+                            "type": "int"
+                        }
+                    },
+                    {
+                        "offset": 4,
+                        "opr": "store",
+                        "type": "int",
+                        "index": 1
                     },
                     {
                         "offset": 5,
@@ -714,7 +740,7 @@
     "innerclasses": [],
     "annotations": [],
     "version": [
-        61,
+        64,
         0
     ]
 }

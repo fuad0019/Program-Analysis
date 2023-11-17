@@ -5,7 +5,7 @@ from FlowGraph import *
 from SubSequence import is_subsequence
 
 
-with open("./patterns.json") as f:
+with open("projekt/app/patterns.json") as f:
     patterns = json.load(f)
 
 
@@ -76,15 +76,36 @@ def detectPattern(memory, method, variableNamer, flowGraph, javaCodeList):
                 variableNamer.SetVariableName(storeOpr["index"])
 
                 typeOfVariable = str(loadOpr["type"])
-                nameOfVariable = variableNamer.GetVariableName(loadOpr["index"])
+                nameOfVariable = variableNamer.GetVariableName(storeOpr["index"])
+                nameOfValue = variableNamer.GetVariableName(loadOpr["index"])
 
                 #type, value = inferTypeAndValue(typeOfVariable, valueOfVariable)
                 typeInferredString = (
                     patterns[key]["equivalentJava"]
                     .replace("type", typeOfVariable)
-                    .replace("value", str(nameOfVariable))
+                    .replace("value", str(nameOfValue))
                     .replace(
-                        "variable", variableNamer.GetVariableName(storeOpr["index"])
+                        "variable", nameOfVariable
+                    )
+                )
+                newJavaCodeList.append(typeInferredString)
+
+
+            if key == "DeclareVariableFromGlobal":
+                loadOpr = list(filter(lambda x: x["opr"] == "load", memory))[0]
+                getOpr = list(filter(lambda x: x["opr"] == "get", memory))[0]
+                storeOpr = list(filter(lambda x: x["opr"] == "store", memory))[0]
+                variableNamer.SetVariableName(storeOpr["index"])
+                typeOfVariable = str(storeOpr["type"])
+                nameOfVariable = variableNamer.GetVariableName(storeOpr["index"])
+                nameOfValue = getOpr["field"]["name"]
+                #type, value = inferTypeAndValue(typeOfVariable, valueOfVariable)
+                typeInferredString = (
+                    patterns[key]["equivalentJava"]
+                    .replace("type", typeOfVariable)
+                    .replace("value", str(nameOfValue))
+                    .replace(
+                        "variable", nameOfVariable
                     )
                 )
                 newJavaCodeList.append(typeInferredString)
