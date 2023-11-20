@@ -5,20 +5,41 @@ from FlowGraph import *
 from SubSequence import is_subsequence
 
 
-with open("./patterns.json") as f:
+with open("projekt/app/patterns.json") as f:
     patterns = json.load(f)
 
-pushMap = {} # TO know what operator we are on
+
+pushList = [] # TO PUSH JAVACODE AT LATER POINT, SUCH AS CLOSING BRACKET
 
 
 #variableNamer = VariableNamer()
 
 
 def detectPattern(memory, method, variableNamer, flowGraph, javaCodeList):
+
+    newJavaCodeList = javaCodeList.copy()
+
+    global pushList
+
+
+    if len(pushList)>0:
+        currentOpr = memory[-1]
+        print(method)
+        indexCurrentOpr = method["code"]["bytecode"].index(currentOpr)
+        print(f"INDEX of Current OPR: {indexCurrentOpr}")
+
+
+        for pushElement in pushList:
+            print(pushElement)
+            if indexCurrentOpr == pushElement[0]:
+                newJavaCodeList.append(pushElement[1])
+
+
+
     memory_oprs = [item["opr"] for item in memory]
     print(memory_oprs)
 
-    newJavaCodeList = javaCodeList.copy()
+    
 
     typeInferredString = ""
 
@@ -55,15 +76,36 @@ def detectPattern(memory, method, variableNamer, flowGraph, javaCodeList):
                 variableNamer.SetVariableName(storeOpr["index"])
 
                 typeOfVariable = str(loadOpr["type"])
-                nameOfVariable = variableNamer.GetVariableName(loadOpr["index"])
+                nameOfVariable = variableNamer.GetVariableName(storeOpr["index"])
+                nameOfValue = variableNamer.GetVariableName(loadOpr["index"])
 
                 #type, value = inferTypeAndValue(typeOfVariable, valueOfVariable)
                 typeInferredString = (
                     patterns[key]["equivalentJava"]
                     .replace("type", typeOfVariable)
-                    .replace("value", str(nameOfVariable))
+                    .replace("value", str(nameOfValue))
                     .replace(
-                        "variable", variableNamer.GetVariableName(storeOpr["index"])
+                        "variable", nameOfVariable
+                    )
+                )
+                newJavaCodeList.append(typeInferredString)
+
+
+            if key == "DeclareVariableFromGlobal":
+                loadOpr = list(filter(lambda x: x["opr"] == "load", memory))[0]
+                getOpr = list(filter(lambda x: x["opr"] == "get", memory))[0]
+                storeOpr = list(filter(lambda x: x["opr"] == "store", memory))[0]
+                variableNamer.SetVariableName(storeOpr["index"])
+                typeOfVariable = str(storeOpr["type"])
+                nameOfVariable = variableNamer.GetVariableName(storeOpr["index"])
+                nameOfValue = getOpr["field"]["name"]
+                #type, value = inferTypeAndValue(typeOfVariable, valueOfVariable)
+                typeInferredString = (
+                    patterns[key]["equivalentJava"]
+                    .replace("type", typeOfVariable)
+                    .replace("value", str(nameOfValue))
+                    .replace(
+                        "variable", nameOfVariable
                     )
                 )
                 newJavaCodeList.append(typeInferredString)
@@ -180,6 +222,8 @@ def detectPattern(memory, method, variableNamer, flowGraph, javaCodeList):
 
                 endPositionOfIf =   memory[-1]["target"]
 
+                pushList.append((endPositionOfIf, "}", "if"))
+
 
 
 
@@ -197,6 +241,8 @@ def detectPattern(memory, method, variableNamer, flowGraph, javaCodeList):
                 break
 
         elif is_subsequence(patterns["jump"]["pattern"], memory_oprs):
+            pushList = [value for key, value in enumerate(pushList) if value[-1] != "if"]
+            print(f"This is {pushList}")
             print(f"\n THIS IS THE Jump {key}")
             flowGraph.CreateNode()
             flowGraph.addOprToCurrentNode(memory[-1]) 
