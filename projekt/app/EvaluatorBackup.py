@@ -4,8 +4,8 @@ import glob
 import pathlib
 import os 
 
-TestInputFile = "projekt/ressources/java_files/input_files/VarDeclareTest.java"
-TestOutputFile = "projekt/ressources/java_files/output_files/VarDeclare.java"
+TestInputFile = "projekt/ressources/java_files/input_files/Eval/Evaluate1.java"
+TestOutputFile = "projekt/ressources/java_files/input_files/Eval/Evaluate2.java"
 #lastOutput = 
 
 #input(Class) -> ByteCode -> Decompile -> JAVA -> ByteCode -> Decompile 

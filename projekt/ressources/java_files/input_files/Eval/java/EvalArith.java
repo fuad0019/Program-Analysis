@@ -31,7 +31,6 @@ public class EvalArith {
         int e = a - b - c;
         int f = a * b * c;
         int g = a / b / c;
-
     }
 
 }

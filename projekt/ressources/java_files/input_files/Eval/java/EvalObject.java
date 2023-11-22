@@ -5,13 +5,3 @@ public class EvalObject {
         myTestClass.tryMe();
     }
 }
-
-private class TestClass { // TestClass for object declaration
-    TestClass() {
-        System.out.println("hello");
-    }
-
-    public void tryMe() {
-
-    }
-}

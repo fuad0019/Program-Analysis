@@ -113,6 +113,9 @@ def detectPattern(memory, method, variableNamer, flowGraph, javaCodeList):
                     .replace(
                         "insideVariable", variableName
                     ) 
+                    .replace(
+                        "opr",str(MatchOperant(binaryOpr["operant"]))
+                    ) 
                 )
                 newJavaCodeList.append(typeInferredString)
 
@@ -289,6 +292,9 @@ def detectPattern(memory, method, variableNamer, flowGraph, javaCodeList):
 
                 if pushOpr["value"]["type"] == "string": 
                     word_with_quotes = f'"{pushOpr["value"]["value"]}"'
+                    typeInferredString = patterns[key]["equivalentJava"].replace("type", word_with_quotes)
+                elif pushOpr["value"]["type"] == "float": 
+                    word_with_quotes = f'{pushOpr["value"]["value"]}f'
                     typeInferredString = patterns[key]["equivalentJava"].replace("type", word_with_quotes)
                 else: 
                     typeInferredString = patterns[key]["equivalentJava"].replace(
