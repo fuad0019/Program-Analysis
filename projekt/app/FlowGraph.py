@@ -56,7 +56,7 @@ class FlowGraph:
             inLoop = True
 
             node = list(filter(lambda node: [opr for opr in node.getBasicBlock() if opr["offset"] == gotoOpr["target"]], self.Nodes ))[0]
-             
+            print(len(self.Nodes))
             while len(node.getSuccessors())>0:
                 
                 headerIndex = node.getIndex()

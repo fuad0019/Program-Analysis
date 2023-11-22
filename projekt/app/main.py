@@ -6,8 +6,8 @@ def main(inputPath, outputPath):
     inputFile = ""
     outputFile = ""
     if(inputPath == None or outputPath == None):
-        inputFile = "../ressources/json_bytecode_files/VarDeclareTest.json"
-        outputFile = "../ressources/java_files/output_files/VarDeclare.java"
+        inputFile = "/Users/karl-emilkensmark/Documents/GitHub/Program-Analysis/projekt/ressources/json_bytecode_files/EvalIf.json"
+        outputFile = "/Users/karl-emilkensmark/Documents/GitHub/Program-Analysis/projekt/ressources/java_files/output_files/EvalIfDC.java"
     else: 
         inputFile = inputPath
         outputFile = outputPath

@@ -12,11 +12,14 @@ class VariableNamer:
 
     
     def SetVariableName(self, index):
+        if not index in self.localVariables: 
             variableName = f"var{self.counter}"
             self.localVariables[index] = variableName #Assign local variable and save it in a list
             self.counter += 1
+
     
     def randomword(self,length): #bruges ikke 
         letters = string.ascii_lowercase
         return "".join(random.choice(letters) for i in range(length))
+
 

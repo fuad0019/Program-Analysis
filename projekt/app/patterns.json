@@ -1,20 +1,33 @@
 {
-    "add": {
+    "TwoVariableArithmetic": {
         "pattern": [
-            "push",
+            "load",
+            "load",
+            "binary",
+            "store"
+        ],
+        "equivalentJava": "type varc = vara opr varb;"
+    },
+    "ThreeVariableArithmetic": {
+        "pattern": [
+            "load",
+            "load",
+            "binary",
+            "load",
+            "binary",
+            "store"
+        ],
+        "equivalentJava": "type vard = vara opr varb opr varc;"
+    },
+    "IncrementVariable": {
+        "pattern": [
+            "load",
             "push",
             "binary",
-            "return"
+            "store"
         ],
-        "equivalentJava": "return a + b;"
+        "equivalentJava": "outsideVariable = insideVariable opr value;"
     },
-    "subtract": {
-        "pattern": [
-            ""
-        ],
-        "equivalentJava": ""
-    },
-
     "DeclareVariable": {
         "pattern": [
             "push",
@@ -37,39 +50,73 @@
         ],
         "equivalentJava": "type variable = this.value;"
     },
-    "VarReturn":{
+    "VarReturn": {
         "pattern": [
             "load",
             "return"
         ],
         "equivalentJava": "return variable;"
     },
-    "VoidReturn":{
+    "VarReturnValue": {
+        "pattern": [
+            "push",
+            "return"
+        ],
+        "equivalentJava": "return type;"
+    },
+    "VoidReturn": {
         "pattern": [
             "return"
         ],
         "equivalentJava": ""
     },
-
-    "methodCall":{
-        "pattern":["load","invoke"],
+    "Return": {
+        "pattern": [
+            "return"
+        ],
+        "equivalentJava": "return;"
+    },
+    "methodCall": {
+        "pattern": [
+            "load",
+            "invoke"
+        ],
         "equivalentJava": "variable.methodCall();"
-    }
-,
-    "DeclareVariableAndAssignObject":{
-        "pattern":["new", "dup", "invoke", "store"],
+    },
+    "DeclareVariableAndAssignObject": {
+        "pattern": [
+            "new",
+            "dup",
+            "invoke",
+            "store"
+        ],
         "equivalentJava": "type variable = new type();"
     },
     "ConstructObject": {
-        "pattern": ["new", "dup", "invoke", "pop"],
+        "pattern": [
+            "new",
+            "dup",
+            "invoke",
+            "pop"
+        ],
         "equivalentJava": "new type();"
     },
-    "conditional": {
-        "pattern": ["if"],
+    "conditional1": {
+        "pattern": [
+            "if"
+        ],
+        "equivalentJava": "if (variable1 comparer variable2){"
+    },
+    "conditional2": {
+        "pattern": [
+            "ifz"
+        ],
         "equivalentJava": "if (variable1 comparer variable2){"
     },
     "jump": {
-        "pattern": ["goto"],
+        "pattern": [
+            "goto"
+        ],
         "equivalentJava": "loopType ( condition ){basicBlock}"
     }
 }
