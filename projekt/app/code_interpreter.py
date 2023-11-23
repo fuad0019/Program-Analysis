@@ -5,7 +5,7 @@ from FlowGraph import *
 from SubSequence import is_subsequence
 
 
-with open("projekt/app/patterns.json") as f:
+with open("/Users/joakimbryld/Documents/GitHub/Program-Analysis/projekt/app/patterns.json") as f:
     patterns = json.load(f)
 
 
