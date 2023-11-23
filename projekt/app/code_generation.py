@@ -112,7 +112,7 @@ def generate_class(bytecode):
     print(globals)
 
     method = ""
-    for bytecode_method in bytecode_methods[0:9]:
+    for bytecode_method in bytecode_methods:
         method = method + f"{generate_method(bytecode_method)}\n"
 
     result = f"{access} class {name} {'{'}\n\

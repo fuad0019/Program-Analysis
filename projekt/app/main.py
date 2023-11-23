@@ -6,8 +6,8 @@ def main(inputPath, outputPath):
     inputFile = ""
     outputFile = ""
     if(inputPath == None or outputPath == None):
-        inputFile = "/Users/joakimbryld/Documents/GitHub/Program-Analysis/projekt/ressources/json_bytecode_files/EvalLoopsDC.json"
-        outputFile = "/Users/joakimbryld/Documents/GitHub/Program-Analysis/projekt/ressources/java_files/output_files/EvalLoopsDCDC.java"
+        inputFile = "/Users/joakimbryld/Documents/GitHub/Program-Analysis/projekt/ressources/json_bytecode_files/EvalDecompiler.json"
+        outputFile = "/Users/joakimbryld/Documents/GitHub/Program-Analysis/projekt/ressources/java_files/output_files/EvalDecompiler.java"
     else: 
         inputFile = inputPath
         outputFile = outputPath

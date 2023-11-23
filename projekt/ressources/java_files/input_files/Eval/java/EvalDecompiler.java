@@ -14,7 +14,7 @@ public class EvalDecompiler {
         return 3.4f;
     }
 
-    public bool return4() { // Tester Return bool
+    public boolean return4() { // Tester Return bool
         return true;
     }
 
@@ -192,17 +192,6 @@ public class EvalDecompiler {
     }
 
     private void method2() { // Private
-
-    }
-
-}
-
-public class TestClass { // TestClass for object declaration
-    TestClass() {
-        System.out.println("hello");
-    }
-
-    public void tryMe() {
 
     }
 }
